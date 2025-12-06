@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+    networks:
+      - appnet
+
+  api:
+    image: cloud-splitter-api:latest
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      POSTGRES_HOST: db
+      APP_ORIGIN: http://142.93.155.200:5173
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - appnet
+
+  web:
+    image: cloud-splitter-web:latest
+    environment:
+      VITE_API_ORIGIN: http://142.93.155.200:8080
+    depends_on:
+      - api
+    ports:
+      - "5173:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - appnet
+
+networks:
+  appnet:
+    driver: overlay
+
+volumes:
+  pgdata:
+    driver: local
