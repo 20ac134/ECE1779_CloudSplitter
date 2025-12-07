@@ -1,25 +1,3 @@
-// import { Link, useNavigate } from 'react-router-dom';
-
-// export default function Navbar(){
-//   const nav = useNavigate();
-//   const loggedIn = !!localStorage.getItem('token');
-//   return (
-//     <nav style={{ display:'flex', gap:12, alignItems:'center', marginBottom:16 }}>
-//       <h2 style={{ marginRight: 'auto' }}>Cloud Splitter</h2>
-//       {loggedIn ? (
-//         <>
-//           <Link to="/">Groups</Link>
-//           <button onClick={()=>{ localStorage.removeItem('token'); nav('/login'); }}>Logout</button>
-//         </>
-//       ) : (
-//         <>
-//           <Link to="/login">Login</Link>
-//           <Link to="/register">Register</Link>
-//         </>
-//       )}
-//     </nav>
-//   );
-// }
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api.js'; // Adjust path according to your actual location: if Navbar and api are at same level, use './api.js'
