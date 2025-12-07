@@ -312,18 +312,6 @@ export default function GroupDetail() {
 
   return (
     <div>
-      {/* DEBUG marker, confirm frontend version */}
-      <div
-        style={{
-          background: 'red',
-          color: 'white',
-          padding: 8,
-          marginBottom: 8,
-        }}
-      >
-        DEBUG INVITE & SETTLEMENT VERSION
-      </div>
-
       <h2>
         Group #{group.id}: {group.name}
       </h2>
