@@ -16,6 +16,6 @@ docker compose up -d
 ```
 
 3. Open local application using the below link:
-- http://localhost:5173/login
+- http://localhost:5173
 - Should see login page, if not click logout button located at top right
 
