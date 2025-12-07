@@ -1,12 +1,10 @@
 FROM node:20-alpine AS build
 WORKDIR /usr/src/app
 
-# 可留着这两行用于强制刷新缓存（之前加过也行）
 ARG APP_VERSION=dev
 LABEL app.version=$APP_VERSION
 
 COPY package.json .
-# ✅ 把 npm ci 换成 npm install（没有 lock 也能装）
 RUN npm config set fetch-retries 5 \
  && npm config set fetch-timeout 600000 \
  && npm install --no-audit --no-fund
@@ -14,7 +12,7 @@ RUN npm config set fetch-retries 5 \
 COPY . .
 ARG VITE_API_ORIGIN
 ENV VITE_API_ORIGIN=${VITE_API_ORIGIN}
-RUN npm run build
+RUN chmod +x node_modules/.bin/vite && npm run build
 
 FROM nginx:alpine
 COPY --from=build /usr/src/app/dist /usr/share/nginx/html
