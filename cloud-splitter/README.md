@@ -16,7 +16,7 @@ npm run build
 docker compose up -d
 ```
 
-3. Open:
-- Web: http://localhost:5173
-- API: http://localhost:8080
-- MailHog: http://localhost:8025
+3. Open local application using the below link:
+- http://localhost:5173
+- Should see login page, if not click logout button located at top right
+
