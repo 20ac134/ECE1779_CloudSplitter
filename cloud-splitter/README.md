@@ -8,7 +8,6 @@ Remove-Item -Recurse -Force .\node_modules
 Remove-Item -Force .\package-lock.json
 npm install
 npx vite build
-npm run build
 ```
 
 2. cd back to the cloud-splitter directory and run:
@@ -17,6 +16,6 @@ docker compose up -d
 ```
 
 3. Open local application using the below link:
-- http://localhost:5173
+- http://localhost:5173/login
 - Should see login page, if not click logout button located at top right
 
