@@ -312,7 +312,6 @@ export default function GroupDetail() {
 
   return (
     <div>
-
       <h2>
         Group #{group.id}: {group.name}
       </h2>
