@@ -1,3 +1,4 @@
+import './Groups.css';
 import { useEffect, useState } from 'react';
 import { api } from '../api.js';
 import { Link } from 'react-router-dom';
@@ -7,7 +8,7 @@ export default function Groups(){
   const [name, setName] = useState('Thailand Trip');
   useEffect(()=>{ api('/groups').then(setGroups); },[]);
   return (
-    <div>
+    <div className="groups-container">
       <h3>Your Groups</h3>
       <ul>
         {groups.map(g => <li key={g.id}><Link to={`/groups/${g.id}`}>{g.name}</Link></li>)}

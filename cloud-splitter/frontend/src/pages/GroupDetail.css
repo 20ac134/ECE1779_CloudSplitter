@@ -1,0 +1,99 @@
+.group-detail-container {
+  width: 1000px; 
+  margin: 50px auto;
+  padding: 24px;
+  border-radius: 12px;
+  background: rgb(200, 200, 200);
+  color: rgb(255, 255, 255);
+}
+
+.group-header h2 {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.group-meta {
+  color: #555;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.status-active {
+  color: orange;
+  font-weight: 600;
+}
+
+.status-finalized {
+  color: green;
+  font-weight: 600;
+}
+
+.section {
+  margin-top: 32px;
+}
+
+.section h4 {
+  margin-bottom: 12px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.list-clean {
+  list-style: none;
+  padding: 0;
+}
+
+.list-clean li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.list-clean li:last-child {
+  border-bottom: none;
+}
+
+button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+}
+
+button:hover {
+  background: #1e40af;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+input, select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.inline {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.warning {
+  color: red;
+  font-size: 13px;
+}
+
+.muted {
+  color: #777;
+  font-size: 13px;
+}

@@ -1,6 +1,8 @@
+import './Register.css';
 import { useState } from 'react';
 import { api } from '../api.js';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 
 export default function Register(){
   const nav = useNavigate();
@@ -8,8 +10,16 @@ export default function Register(){
   const [email,setEmail] = useState('charlie@example.com');
   const [password,setPassword] = useState('password');
   const [err,setErr] = useState('');
+
+  useEffect(() => {
+    document.body.classList.add("register-page");
+    return () => {
+      document.body.classList.remove("registe-page");
+     };
+  }, []);
+
   return (
-    <div>
+    <div className="register-container">
       <h3>Register</h3>
       <input placeholder="Name" value={name} onChange={e=>setName(e.target.value)} />
       <input placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
@@ -22,7 +32,7 @@ export default function Register(){
           nav('/');
         } catch (e) { setErr(e.message); }
       }}>Create account</button>
-      {err && <p style={{color:'crimson'}}>{err}</p>}
+      {err && <p className="error">{err}</p>}
     </div>
   );
 }

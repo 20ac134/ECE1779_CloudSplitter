@@ -1,3 +1,4 @@
+import './GroupDetail.css';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../api.js';
@@ -311,27 +312,31 @@ export default function GroupDetail() {
   const isCreator = currentUser && group.created_by === currentUser.id;
 
   return (
-    <div>
-      <h2>
-        Group #{group.id}: {group.name}
-      </h2>
-      <p style={{ color: '#555' }}>{group.description}</p>
-      <p>
+    <div className="group-detail-container">
+      {/* Header */}
+      <div className="group-header">
+        {/* <h2>Group #{group.id}: {group.name}</h2> */}
+        <h2>{group.name}</h2>
+        <p className="group-meta">{group.description}</p>
+      </div>
+      
+      {/* Status */}
+      <p className="group-meta">
         Currency: <strong>{group.currency}</strong>
       </p>
-      <p>
+      <p className="group-meta">
         Status:{' '}
         {isFinalized ? (
-          <span style={{ color: 'green', fontWeight: 600 }}>Finalized (read-only)</span>
+          <span className="status-finalized">Finalized (read-only)</span>
         ) : (
-          <span style={{ color: 'orange', fontWeight: 600 }}>Active - can record/settle</span>
+          <span className="status-active">Active – can record/settle</span>
         )}
       </p>
 
       {/* Member list & invitation */}
-      <section style={{ marginTop: 16 }}>
+      <section className="section">
         <h4>Members</h4>
-        <ul>
+        <ul className="list-clean">
           {members.map((m) => (
             <li key={m.id}>
               {m.name} ({m.email}){' '}
@@ -366,7 +371,7 @@ export default function GroupDetail() {
       </section>
 
       {/* Add expense */}
-      <section style={{ marginTop: 24 }}>
+      <section className="section">
         <h4>Add Expense</h4>
 
         {isFinalized && (
@@ -460,7 +465,7 @@ export default function GroupDetail() {
         {mode !== 'equal' && (
           <div style={{ marginTop: 8 }}>
             <div>Select members participating in split:</div>
-            <ul>
+            <ul className="list-clean">
               {members.map((m) => (
                 <li key={m.id}>
                   <label>
@@ -521,9 +526,9 @@ export default function GroupDetail() {
       </section>
 
       {/* Current balance overview */}
-      <section style={{ marginTop: 24 }}>
+      <section className="section">
         <h4>Balances (current unsettled net amounts)</h4>
-        <ul>
+        <ul className="list-clean">
           {summary.map((s) => (
             <li key={s.user_id}>
               {s.name}: {Number(s.amount).toFixed(2)}
@@ -533,7 +538,7 @@ export default function GroupDetail() {
       </section>
 
       {/* Settlement preview & final email */}
-      <section style={{ marginTop: 24 }}>
+      <section className="section">
         <h4>Settlement</h4>
         {!isCreator && (
           <div style={{ fontSize: 12, color: '#999', marginBottom: 4 }}>
@@ -563,7 +568,7 @@ export default function GroupDetail() {
         {previewTxs.length > 0 ? (
           <div style={{ marginTop: 12 }}>
             <h5>Suggested transfer scheme:</h5>
-            <ul>
+            <ul className="list-clean">
               {previewTxs.map((t, idx) => {
                 const from = memberById.get(t.from_user_id);
                 const to = memberById.get(t.to_user_id);
@@ -585,9 +590,9 @@ export default function GroupDetail() {
       </section>
 
       {/* Expense list (simple version) */}
-      <section style={{ marginTop: 24 }}>
+      <section className="section">
         <h4>Recent Expenses</h4>
-        <ul>
+        <ul className="list-clean">
           {expenses.map((e) => (
             <li key={e.id}>
               #{e.id} ${e.amount} – {e.description} ({e.category}) on {e.date}
@@ -597,7 +602,7 @@ export default function GroupDetail() {
       </section>
 
       {/* Each expense detailed split + delete button */}
-      <section style={{ marginTop: 24 }}>
+      <section className="section">
         <h4>Expense Details</h4>
         {detailList.length === 0 && (
           <div style={{ fontSize: 13, color: '#666' }}>No details yet.</div>
@@ -611,14 +616,7 @@ export default function GroupDetail() {
             allUnsettled;
 
           return (
-            <div
-              key={exp.expense_id}
-              style={{
-                border: '1px solid #ccc',
-                padding: 8,
-                marginBottom: 8,
-              }}
-            >
+            <div key={exp.expense_id} className="card">
               <div>
                 <strong>
                   #{exp.expense_id} ${exp.amount.toFixed(2)} –{' '}
