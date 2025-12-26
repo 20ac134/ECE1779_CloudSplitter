@@ -127,6 +127,13 @@ export default function GroupDetail() {
     };
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    document.body.classList.add("login-page");
+    return () => {
+      document.body.classList.remove("login-page");
+    };
+  }, []);
+
   // ====== Utility functions ======
 
   function toggleUser(uid) {
@@ -315,7 +322,6 @@ export default function GroupDetail() {
     <div className="group-detail-container">
       {/* Header */}
       <div className="group-header">
-        {/* <h2>Group #{group.id}: {group.name}</h2> */}
         <h2>{group.name}</h2>
         <p className="group-meta">{group.description}</p>
       </div>
@@ -341,7 +347,7 @@ export default function GroupDetail() {
             <li key={m.id}>
               {m.name} ({m.email}){' '}
               {group.created_by === m.id && (
-                <span style={{ fontSize: 12, color: '#999' }}>[Creator]</span>
+                <span style={{ fontSize: 12, color: '#666' }}>[Creator]</span>
               )}
             </li>
           ))}
@@ -363,7 +369,7 @@ export default function GroupDetail() {
             Invite
           </button>
           {isFinalized && (
-            <div style={{ fontSize: 12, color: '#999', marginTop: 4 }}>
+            <div style={{ fontSize: 12, color: '#666', marginTop: 4 }}>
               Finalized groups cannot invite new members.
             </div>
           )}
@@ -415,7 +421,35 @@ export default function GroupDetail() {
           </select>
         </div>
 
-        <div style={{ marginTop: 8 }}>
+        <div className="split-mode">
+          {[
+            { value: 'equal', label: 'Equal', desc: 'Split equally among all' },
+            { value: 'partial', label: 'Partial', desc: 'Selected participants only' },
+            { value: 'percent', label: 'Percent', desc: 'Split by percentage' },
+            { value: 'custom', label: 'Custom', desc: 'Specify individual amounts' },
+          ].map((opt) => (
+            <label
+              key={opt.value}
+              className={`split-option ${mode === opt.value ? 'selected' : ''}`}
+            >
+              <input
+                type="radio"
+                name="mode"
+                value={opt.value}
+                checked={mode === opt.value}
+                onChange={() => setMode(opt.value)}
+                disabled={isFinalized}
+              />
+             <div>
+                <strong>{opt.label}</strong>
+               <div className="split-desc">{opt.desc}</div>
+             </div>
+           </label>
+         ))}
+        </div>
+
+
+        {/* <div style={{ marginTop: 8 }}>
           <label>
             <input
               type="radio"
@@ -460,27 +494,31 @@ export default function GroupDetail() {
             />{' '}
             Custom (specify individual amounts)
           </label>
-        </div>
+        </div> */}
 
         {mode !== 'equal' && (
           <div style={{ marginTop: 8 }}>
             <div>Select members participating in split:</div>
+
             <ul className="list-clean">
               {members.map((m) => (
-                <li key={m.id}>
-                  <label>
+                <li key={m.id} className="participant-row">
+                  <label className="participant-label">
                     <input
                       type="checkbox"
                       checked={selected.includes(m.id)}
                       onChange={() => toggleUser(m.id)}
                       disabled={isFinalized}
                     />
-                    {m.name} ({m.email})
+                    <span className="participant-name">
+                      {m.name} ({m.email})
+                    </span>
                   </label>
+
                   {mode === 'percent' && selected.includes(m.id) && (
                     <input
                       type="number"
-                      style={{ marginLeft: 8, width: 80 }}
+                      className="participant-input"
                       placeholder="%"
                       value={percents[m.id] || ''}
                       onChange={(e) =>
@@ -492,10 +530,11 @@ export default function GroupDetail() {
                       disabled={isFinalized}
                     />
                   )}
+
                   {mode === 'custom' && selected.includes(m.id) && (
                     <input
                       type="number"
-                      style={{ marginLeft: 8, width: 100 }}
+                      className="participant-input"
                       placeholder="Amount"
                       value={customs[m.id] || ''}
                       onChange={(e) =>
@@ -510,11 +549,13 @@ export default function GroupDetail() {
                 </li>
               ))}
             </ul>
+
             {mode === 'percent' && (
               <small>Tip: The sum of all percentages should ideally be 100.</small>
             )}
           </div>
         )}
+
 
         <button
           onClick={submitExpense}
@@ -541,12 +582,12 @@ export default function GroupDetail() {
       <section className="section">
         <h4>Settlement</h4>
         {!isCreator && (
-          <div style={{ fontSize: 12, color: '#999', marginBottom: 4 }}>
+          <div style={{ fontSize: 12, color: '#666', marginBottom: 4 }}>
             Only group creator can send final settlement emails, other members can only preview the scheme.
           </div>
         )}
         {isFinalized && (
-          <div style={{ fontSize: 13, color: 'green', marginBottom: 4 }}>
+          <div style={{ fontSize: 13, color: '#666', marginBottom: 4 }}>
             This group is finalized, accounts are locked; if adjustments are needed, please create a new trip.
           </div>
         )}
@@ -636,7 +677,7 @@ export default function GroupDetail() {
                 </button>
               )}
               {!canDelete && currentUser && exp.payer_id === currentUser.id && (
-                <div style={{ fontSize: 11, color: '#999', marginTop: 4 }}>
+                <div style={{ fontSize: 11, color: '#666', marginTop: 4 }}>
                   This expense has members marked as settled or group is locked, cannot delete.
                 </div>
               )}

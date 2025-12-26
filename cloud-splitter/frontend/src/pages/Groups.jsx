@@ -7,6 +7,14 @@ export default function Groups(){
   const [groups, setGroups] = useState([]);
   const [name, setName] = useState('Thailand Trip');
   useEffect(()=>{ api('/groups').then(setGroups); },[]);
+
+  useEffect(() => {
+    document.body.classList.add("groups-page");
+    return () => {
+      document.body.classList.remove("groups-page");
+    };
+  }, []);
+  
   return (
     <div className="groups-container">
       <h3>Your Groups</h3>

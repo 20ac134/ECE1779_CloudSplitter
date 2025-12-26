@@ -15,6 +15,7 @@ body.register-page {
   margin: 50px auto;
   padding: 24px;
   border-radius: 12px;
+  transition: all 0.5s ease;
 }
 
 .register-container:hover {
@@ -37,6 +38,7 @@ body.register-page {
   color: rgb(255, 255, 255);
   box-sizing: border-box;
   font-size: 20px;
+  transition: all 0.5s ease;
 }
 
 .register-container input:hover {
@@ -52,6 +54,7 @@ body.register-page {
   border-radius: 6px;
   cursor: pointer;
   font-size: 20px;
+  transition: all 0.5s ease;
 }
 
 .register-container button:hover {
