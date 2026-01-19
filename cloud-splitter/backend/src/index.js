@@ -14,8 +14,10 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: process.env.APP_ORIGIN || '*', credentials: true }));
 
+// Health Check Endpoint
 app.get('/health', (req,res)=>res.json({ ok: true }));
 
+// Route Registration (users)
 app.use('/api/users', users);
 
 // inject io into req for realtime emits
@@ -23,9 +25,11 @@ const server = http.createServer(app);
 const io = initWs(server, process.env.APP_ORIGIN || '*');
 app.use((req, _res, next) => { req.io = io; next(); });
 
+// Route Registration
 app.use('/api/groups', groups);
 app.use('/api/expenses', expenses);
 app.use('/api/settlements', settlements);
 
+// HTTP server startup
 const port = process.env.API_PORT || 8080;
 server.listen(port, () => console.log(`API listening on :${port}`));

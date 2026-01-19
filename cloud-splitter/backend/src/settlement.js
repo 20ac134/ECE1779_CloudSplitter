@@ -1,8 +1,15 @@
 export function minimizeTransactions(balances) {
+
+  // get credirors from net balance, in decreasing amount order
   const creditors = balances.filter(b => b.amount > 0).map(b => ({...b})).sort((a,b)=>b.amount-a.amount);
+
+   // get debtors from net balance, in decreasing amount order
   const debtors = balances.filter(b => b.amount < 0).map(b => ({...b})).sort((a,b)=>a.amount-b.amount);
   const txs = [];
   let i=0, j=0;
+
+  // greedy settlement alg
+  // match largest debtor with largest creditor
   while (i < debtors.length && j < creditors.length) {
     const owe = -debtors[i].amount;
     const due = creditors[j].amount;

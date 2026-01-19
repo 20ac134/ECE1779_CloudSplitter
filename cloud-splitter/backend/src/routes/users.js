@@ -6,6 +6,7 @@ import { query } from '../db.js';
 
 const router = express.Router();
 
+// User Registration
 router.post('/register',
   body('email').isEmail(),
   body('password').isLength({ min: 6 }),
@@ -22,6 +23,7 @@ router.post('/register',
   }
 );
 
+// User Login
 router.post('/login', async (req,res)=>{
   try {
     const result = await login(req.body);
@@ -31,6 +33,7 @@ router.post('/login', async (req,res)=>{
   }
 });
 
+// Get Current User
 router.get('/me', requireAuth, async (req, res) => {
   const rows = await query('SELECT id,email,name,created_at FROM users WHERE id=$1', [req.user.id]);
   res.json(rows[0]);

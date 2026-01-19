@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.use(requireAuth);
 
+// Create a group
 router.post('/', async (req,res)=>{
   const { name, description, currency } = req.body;
   const rows = await query(
@@ -17,6 +18,7 @@ router.post('/', async (req,res)=>{
   res.json(group);
 });
 
+// Get All Groups for Current User
 router.get('/', async (req,res)=>{
   const rows = await query(
     `SELECT g.* FROM groups g
@@ -26,7 +28,7 @@ router.get('/', async (req,res)=>{
   res.json(rows);
 });
 
-// 新增：获取单个 group 的详细信息
+// Get Single Group Details
 router.get('/:groupId', async (req, res) => {
   const groupId = req.params.groupId;
   const rows = await query(
@@ -40,6 +42,7 @@ router.get('/:groupId', async (req, res) => {
   res.json(group);
 });
 
+// Invite a User to a Group
 router.post('/:groupId/invite', async (req,res)=>{
   const { email } = req.body;
   const groupId = req.params.groupId;
@@ -50,6 +53,7 @@ router.post('/:groupId/invite', async (req,res)=>{
   res.json({ ok: true });
 });
 
+// Get Group Members
 router.get('/:groupId/members', async (req,res)=>{
   const rows = await query(
     `SELECT u.id, u.email, u.name, gm.role FROM users u
